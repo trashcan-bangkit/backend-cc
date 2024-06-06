@@ -1,6 +1,6 @@
 const Hapi = require('@hapi/hapi');
 const admin = require('firebase-admin');
-const serviceAccount = require('../capstone-be-trashcan/(serviceaccount)');
+const serviceAccount = require('../capstone-be-trashcan/trashcan-1e54a-firebase-adminsdk-bmm8g-6a60b5925e.json');
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
@@ -13,7 +13,7 @@ const init = async () => {
     });
 
     // routes
-    const userRoute = require('./route/userRoute');
+    const userRoute = require('./src/route/userRoute');
     server.route(userRoute);
 
     await server.start();
