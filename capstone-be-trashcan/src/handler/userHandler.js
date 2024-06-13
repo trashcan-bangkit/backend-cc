@@ -3,7 +3,7 @@ const admin = require('firebase-admin');
 const axios = require('axios');
 const firestore = admin.firestore();
 // Firebase Web API Key (get this from your Firebase project settings)
-const FIREBASE_WEB_API_KEY = 'AIzaSyB7evwudRrd1EhIbMXHfDdaM8feUbocI-s';
+const FIREBASE_WEB_API_KEY = process.env.FIREBASE_WEB_API_KEY;
 
 // Signup Handler
 const signupHandler = async (request, h) => {
