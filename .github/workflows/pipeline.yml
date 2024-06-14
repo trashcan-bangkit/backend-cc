@@ -23,6 +23,11 @@ jobs:
       - name: Set working directory
         run: cd capstone-be-trashcan
 
+      # Create the Firebase service account key file
+      - name: Create Firebase service account key file
+        run: echo "${{ secrets.FIREBASE_KEY }}" > trashcan-1e54a-firebase-adminsdk-bmm8g-6a60b5925e.json
+        working-directory: ./capstone-be-trashcan
+
       # Build and tag the Docker image
       - name: Build Docker image
         run: docker build -t ${{ env.IMAGE_NAME }}:${{ github.sha }} .
