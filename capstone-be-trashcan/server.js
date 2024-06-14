@@ -21,6 +21,9 @@ const init = async () => {
     const geomapRoutes = require('./src/route/geomapRoute');
     server.route(geomapRoutes);
 
+    const recommendRoutes = require('./src/route/recommendRoute');
+    server.route(recommendRoutes);
+
     await server.start();
     console.log('Server running on %s', server.info.uri);
 };

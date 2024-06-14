@@ -1,0 +1,47 @@
+name: Deployment
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  REGISTRY: ${{ secrets.REGISTRY_URL }}
+  IMAGE_NAME: trashcan-main-be
+  PROJECT_ID: ${{ secrets.PROJECT_ID }}
+  REGION: asia-southeast2
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Change working directory to capstone-be-trashcan
+      - name: Set working directory
+        run: cd capstone-be-trashcan
+
+      # Build and tag the Docker image
+      - name: Build Docker image
+        run: docker build -t ${{ env.IMAGE_NAME }}:${{ github.sha }} .
+        working-directory: ./capstone-be-trashcan
+
+      # Login to the container registry
+      - name: Login to Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: _json_key
+          password: ${{ secrets.GCP_SA_KEY }}
+
+      # Tag the Docker image to the registry
+      - name: Tag Docker image
+        run: docker tag ${{ env.IMAGE_NAME }}:${{ github.sha }} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+        working-directory: ./capstone-be-trashcan
+
+      # Push the Docker image to the registry
+      - name: Push Docker image
+        run: docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+        working-directory: ./capstone-be-trashcan
